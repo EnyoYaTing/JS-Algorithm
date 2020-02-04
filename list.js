@@ -1,9 +1,9 @@
-/* Linked List in JavaScript */
+/* Linked List in JavaScript, reference to https://www.geeksforgeeks.org/implementation-linkedlist-javascript/ */
 
 // Defining a class of a node
 class Node {
-    constructor(data) {
-        this.data = data;
+    constructor(element){
+        this.element = element;
         this.next = null;
     }
 }
@@ -15,112 +15,103 @@ class LinkedList {
         this.size = 0;
     }
 
+    //add a node to Linkedlist
+    add(elem) {
+        let node = new Node(elem);
+        let current;
 
-    // adds a data at the end of list 
-    add(data) {
-        var node = new Node(data);
-
-        // to store the current node
-        var current;
-        
         if (this.head == null) {
             this.head = node;
         } else {
-            current = this.head;
+            current = this.head;            
             while(current.next) {
-                current = current.next;
+                current = current.next
             }
-
-            // add node
             current.next = node;
         }
         this.size++;
     }
 
-    //  It inserts an data at the given index in a list
-    // In order to add an element at the end of the list we consider three conditions as follows:
-    // 1. if the index is zero we add a data at the front of the list and make it head
-    // 2. If the index is the last position of the list we append the data at the end of the list
-    // 3. if the index is inbetween 0 or size – 1 we iterate over to the index and add a data at that index
-    // In the above method prev holds the previous of current node.
-    insertAt(data, index) {
-
-        if (index > 0 && index > this.size)
-            return false;
-        else {
-            var node = new Node(data);
-            var curr, prev;
-
-            if (index = 0) {
-                node.next = head;
-                this.head = node; 
-            } else {
-                curr = this.head;
-                var it = 0;
-
-                // iterate over the list to find the position to insert
-                while (it < index) {
-                    it++;
-                    prev = curr;
-                    curr = curr.next;
-                }
-
-                // adding an data
-                node.next = curr;
-                prev = node;
-            }
-            this.size++;
-        }
-    }
-
-    // It removes and returns a data from the list from the specified index
-    removeFrom(index) {
-        if(index>0 && index>this.size) {
-            return -1
-        }else {
-            var curr, prev, it = 0; 
+    // insert element at the position index of the list 
+    insertAt(element, index) 
+    { 
+        if (index > 0 && index > this.size) 
+            return false; 
+        else { 
+            // creates a new node 
+            var node = new Node(element); 
+            var curr, prev; 
             curr = this.head; 
-            prev = curr;
-
-            if (index == 0) {
-                this.head = curr.next;
-            }else {
+    
+            // add the element to the first index 
+            if (index === 0) { 
+                node.next = head; 
+                this.head = node; 
+            } else { 
+                curr = this.head; 
+                var it = 0; 
+    
+                // iterate over the list to find the position to insert 
                 while (it < index) { 
                     it++; 
                     prev = curr; 
                     curr = curr.next; 
                 } 
-
-                // remove the data
-                prev.next = curr.next; 
-            }
-            this.size--; 
-  
-            // return the remove data
-            return curr.data;
-        }
-    }
-
-    //this method removes data from the list. It returns the removed data, 
-    //or if its not found it returns -1.
     
-    removeElement(data) {
+                // adding an element 
+                node.next = curr; 
+                prev.next = node; 
+            } 
+            this.size++; 
+        } 
+    } 
+
+    // removes an element from the specified location
+    removeFrom(index) 
+    { 
+        if (index > 0 && index > this.size) 
+            return -1; 
+        else { 
+            var curr, prev, it = 0; 
+            curr = this.head; 
+            prev = curr; 
+    
+            // deleting first element 
+            if (index === 0) { 
+                this.head = curr.next; 
+            } else { 
+                // iterate over the list to the position to removce an element 
+                while (it < index) { 
+                    it++; 
+                    prev = curr; 
+                    curr = curr.next; 
+                } 
+                // remove the element 
+                prev.next = curr.next; 
+            } 
+            this.size--; 
+    
+            // return the remove element 
+            return curr.element; 
+        } 
+    } 
+
+    removeElement(element) 
+    { 
         var current = this.head; 
-        var prev = null;
+        var prev = null; 
 
         // iterate over the list 
         while (current != null) { 
-            // comparing data with current data
-            // if found then remove the 
-            // and return true 
-            if (current.data === data) { 
+            // comparing element with current element if found then remove the and return true 
+            if (current.element === element) { 
                 if (prev == null) { 
                     this.head = current.next; 
                 } else { 
                     prev.next = current.next; 
                 } 
                 this.size--; 
-                return current.data; 
+                return current.element; 
             } 
             prev = current; 
             current = current.next; 
@@ -128,7 +119,56 @@ class LinkedList {
         return -1; 
     }
 
-    //The above method is just a modification of removeFrom(index), 
-    //as it searches for an element and removes it, rather than removing
-    //from a specified location
+    /****** Helper Function ******/
+    // checks the list for empty 
+    isEmpty() 
+    { 
+        return this.size == 0; 
+    } 
+
+    // finds the index of element
+    indexOf(element) 
+    { 
+        var count = 0; 
+        var current = this.head; 
+    
+        // iterae over the list 
+        while (current != null) { 
+            // compare each element of the list 
+            // with given element 
+            if (current.element === element) 
+                return count; 
+            count++; 
+            current = current.next; 
+        } 
+    
+        // not found 
+        return -1; 
+    } 
+
+    // prints the list items 
+    printList() 
+    { 
+        var curr = this.head; 
+        var str = ""; 
+        while (curr) { 
+            str += curr.element + " "; 
+            curr = curr.next; 
+        } 
+        console.log(str); 
+    } 
 }
+
+var num_list =  new LinkedList();
+var info = 101;
+
+while(num_list.size !== 3) {
+    num_list.add(info);
+    info++;
+}
+
+num_list.insertAt(100, 1);
+// console.log("remove " + num_list.removeFrom(2)); 
+// console.log(num_list);
+// console.log(num_list.size);
+num_list.printList();
