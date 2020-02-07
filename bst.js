@@ -164,6 +164,23 @@ class BinarySearchTrees {
     { 
         return this.root; 
     } 
+
+    // search 
+    search(node, value) {
+        if (node === null)
+            return null
+        // go left if smaller    
+        else if (node.value < value){
+            this.search(node.left, value);
+        } 
+        // go right if greater    
+        else if (node.value > value){
+            this.search(node.right, value);
+        }   
+        else {
+            return node;
+        }  
+    } 
 }
 
 // creating a BST
@@ -174,8 +191,9 @@ for(let i=0; i<10; i++) {
     bst.insert(num);
     num = num - 2;
 }
-var root = bst.getRootNode(); 
 
+var root = bst.getRootNode(); 
 bst.remove(37);
+
 console.log(bst.inorder(root)); 
 console.log(bst.preorder(root));
